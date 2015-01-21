@@ -1,5 +1,7 @@
 # Fortress
 
+[![Build Status](https://travis-ci.org/YourCursus/fortress.svg?branch=master)](https://travis-ci.org/YourCursus/fortress)
+
 Implement the simple but powerful protection: close everything and open the
 access explecitely.
 
