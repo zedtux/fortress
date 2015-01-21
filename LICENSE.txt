@@ -1,4 +1,4 @@
-Copyright (c) 2015 zedtux
+Copyright (c) 2015 Guillaume Hain
 
 MIT License
 
