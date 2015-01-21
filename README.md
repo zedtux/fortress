@@ -1,6 +1,15 @@
 # Fortress
 
-TODO: Write a gem description
+Implement the simple but powerful protection: close everything and open the
+access explecitely.
+
+As of today, and as far as I know, all protection libraries are bases on the
+principle that all is open and you close when need which can leads to security
+holes in the case you've forgotten to close a route.
+
+It's probabely better to refuse the access to a page where a user should be
+allowed to access it than allowing access to a page where a user should not be
+allowed to access and let him sees things he shouldn't.
 
 ## Installation
 
@@ -20,11 +29,122 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+After having installed the gem, and started the server, all the routes are
+closed. At this moment your application is absoluetly un-usable so it's in the
+maximum secure mode ; )
+
+### Allow access to the root controller
+
+The first action to take is to allow the root controller as it's the place
+where the user will be redirected in case he tries to access a place where he
+is not allowed to.
+(he is redirected to the `root_url` and a flash message `:error` is displayed.)
+
+Given the root controller of your application is the `WelcomeController` then
+you can allow to access it with the following:
+
+```ruby
+class WelcomeController < ApplicationController
+  fortress_allow :all
+
+  def index
+    # ...
+  end
+end
+```
+
+`fortress_allow` is the only method you need to know. Giving the `:all`
+argument as parameter revert the behavior to the default one: All is open for
+this controller.
+It's simple and easy to use in public controllers (no data with limited access)
+but I highly recommend you to use it as less as possible.
+
+### Allow a specific action
+
+Now you want to allow access to an action of another controller.
+
+In the case you don't have specific need you can write the following:
+
+```ruby
+class PostsController < ApplicationController
+  fortress_allow :index
+
+  def index
+    # ...
+  end
+end
+```
+
+
+### Allow all actions except one
+
+Let's say you have a controller with 4 actions and you want to allow all of
+them except one.
+
+You can specify each actions by hand:
+
+```ruby
+class PostsController < ApplicationController
+  fortress_allow [:index, :show, :download]
+
+  def index; end
+
+  def show; end
+
+  def destroy; end
+
+  def download; end
+end
+```
+
+Or you can combine `:all` with `:except`
+
+```ruby
+class PostsController < ApplicationController
+  fortress_allow :all, except: :destroy
+
+  def index; end
+
+  def show; end
+
+  def destroy; end
+
+  def download; end
+end
+```
+
+Note: This reduce a little bit the security as if you add a new action to the
+controller and you haven't updated Fortress, the action will be allowed.
+
+### Allowing on condition
+
+Finally you can use the `:if` key in order to allow only when the condition is
+true.
+
+```ruby
+class PostsController < ApplicationController
+  fortress_allow :all, except: :destroy
+  fortress_allow :destroy, if: :is_admin?
+
+  def index; end
+
+  def show; end
+
+  def destroy; end
+
+  def download; end
+
+  private
+
+  def is_admin?
+    current_user.admin?
+  end
+end
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/fortress/fork )
+1. Fork it ( https://github.com/YourCursus/fortress/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
