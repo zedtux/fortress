@@ -1,6 +1,6 @@
 # Fortress
 
-[![Build Status](https://travis-ci.org/YourCursus/fortress.svg?branch=master)](https://travis-ci.org/YourCursus/fortress)
+[![Build Status](https://travis-ci.org/YourCursus/fortress.svg?branch=master)](https://travis-ci.org/YourCursus/fortress) [![Code Climate](https://codeclimate.com/github/YourCursus/fortress/badges/gpa.svg)](https://codeclimate.com/github/YourCursus/fortress)
 
 Implement the simple but powerful protection: close everything and open the
 access explecitely.
