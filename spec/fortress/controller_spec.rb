@@ -1,10 +1,6 @@
 require 'spec_helper'
-require 'fixtures/application'
-require 'fixtures/controllers'
 
 describe GuitarsController, type: :controller do
-  before { @flash_error = 'You are not authorised to access this page.' }
-
   it 'should have a before filter `:prevent_access!`' do
     before_filters = subject._process_action_callbacks.map do |callback|
       callback.filter if callback.kind == :before
@@ -20,7 +16,7 @@ describe GuitarsController, type: :controller do
         get :index
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET show' do
@@ -28,7 +24,7 @@ describe GuitarsController, type: :controller do
         get :show, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET new' do
@@ -36,7 +32,7 @@ describe GuitarsController, type: :controller do
         get :new
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST create' do
@@ -44,7 +40,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -52,7 +48,7 @@ describe GuitarsController, type: :controller do
         post :edit, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PUT update' do
@@ -60,7 +56,7 @@ describe GuitarsController, type: :controller do
         put :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PATCH update' do
@@ -68,7 +64,7 @@ describe GuitarsController, type: :controller do
         patch :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST destroy' do
@@ -76,7 +72,7 @@ describe GuitarsController, type: :controller do
         post :destroy, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
   end
@@ -100,7 +96,7 @@ describe GuitarsController, type: :controller do
         get :show, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET new' do
@@ -108,7 +104,7 @@ describe GuitarsController, type: :controller do
         get :new
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST create' do
@@ -116,7 +112,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -124,7 +120,7 @@ describe GuitarsController, type: :controller do
         post :edit, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PUT update' do
@@ -132,7 +128,7 @@ describe GuitarsController, type: :controller do
         put :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PATCH update' do
@@ -140,7 +136,7 @@ describe GuitarsController, type: :controller do
         patch :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST destroy' do
@@ -148,7 +144,7 @@ describe GuitarsController, type: :controller do
         post :destroy, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
   end
@@ -181,7 +177,7 @@ describe GuitarsController, type: :controller do
         get :new
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST create' do
@@ -189,7 +185,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -197,7 +193,7 @@ describe GuitarsController, type: :controller do
         post :edit, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PUT update' do
@@ -205,7 +201,7 @@ describe GuitarsController, type: :controller do
         put :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PATCH update' do
@@ -213,7 +209,7 @@ describe GuitarsController, type: :controller do
         patch :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST destroy' do
@@ -221,7 +217,7 @@ describe GuitarsController, type: :controller do
         post :destroy, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
   end
@@ -342,7 +338,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -402,7 +398,7 @@ describe GuitarsController, type: :controller do
         get :show, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET new' do
@@ -410,7 +406,7 @@ describe GuitarsController, type: :controller do
         get :new
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST create' do
@@ -418,7 +414,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -426,7 +422,7 @@ describe GuitarsController, type: :controller do
         post :edit, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PUT update' do
@@ -434,7 +430,7 @@ describe GuitarsController, type: :controller do
         put :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PATCH update' do
@@ -442,7 +438,7 @@ describe GuitarsController, type: :controller do
         patch :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST destroy' do
@@ -450,7 +446,7 @@ describe GuitarsController, type: :controller do
         post :destroy, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
   end
@@ -465,7 +461,7 @@ describe GuitarsController, type: :controller do
         get :index
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET show' do
@@ -473,7 +469,7 @@ describe GuitarsController, type: :controller do
         get :show, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET new' do
@@ -481,7 +477,7 @@ describe GuitarsController, type: :controller do
         get :new
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST create' do
@@ -489,7 +485,7 @@ describe GuitarsController, type: :controller do
         post :create
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'GET edit' do
@@ -497,7 +493,7 @@ describe GuitarsController, type: :controller do
         post :edit, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PUT update' do
@@ -505,7 +501,7 @@ describe GuitarsController, type: :controller do
         put :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'PATCH update' do
@@ -513,7 +509,7 @@ describe GuitarsController, type: :controller do
         patch :update, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
     describe 'POST destroy' do
@@ -521,7 +517,7 @@ describe GuitarsController, type: :controller do
         post :destroy, id: 1
 
         expect(response).to redirect_to(root_url)
-        expect(flash[:error]).to eql(@flash_error)
+        expect(flash[:error]).to be_present
       end
     end
   end

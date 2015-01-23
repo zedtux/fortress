@@ -30,7 +30,7 @@ module Fortress
     # application.
     def access_deny
       flash[:error] = 'You are not authorised to access this page.'
-      redirect_to Rails.application.routes.url_helpers.root_url
+      redirect_to root_url
     end
 
     #

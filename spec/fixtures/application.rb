@@ -20,6 +20,7 @@ module Rails
       @routes.draw do
         root 'home#index'
         resources :guitars
+        resources :concerts
       end
       @routes
     end
