@@ -29,15 +29,13 @@ module Fortress
     end
 
     def allow_action?(name)
-      return false if Array(params[:except]).include?(name.to_sym)
+      return false if action_forbidden?(name.to_sym)
 
-      if params.key?(:if) && params[:if].key?(:actions)
-        if params[:if][:actions].include?(name.to_sym)
-          return params[:if][:method] == true
-        end
+      if conditionnal_method_with_action?(name.to_sym)
+        return params[:if][:method] == true
       end
 
-      return true if Array(params[:only]).include?(name.to_sym)
+      return true if action_allowed_from_only?(name.to_sym)
 
       allow_all?
     end
@@ -53,6 +51,25 @@ module Fortress
 
     def call_allow_method
       instance.send(params[:if][:method])
+    end
+
+    def conditionally_allowed?(action_name)
+      return unless allow_method?
+      return unless needs_to_check_action?(action_name)
+      call_allow_method
+    end
+
+    def conditionnal_method_with_action?(name)
+      return false unless params.key?(:if) && params[:if].key?(:actions)
+      return true if params[:if][:actions].include?(name)
+    end
+
+    def action_forbidden?(name)
+      Array(params[:except]).include?(name.to_sym)
+    end
+
+    def action_allowed_from_only?(name)
+      Array(params[:only]).include?(name.to_sym)
     end
   end
 end

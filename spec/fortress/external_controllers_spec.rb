@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+#
+# Represents an external controller
+#
+# @author zedtux
+#
 class StagesController < TestController
   def index; end
 

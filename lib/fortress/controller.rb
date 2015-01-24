@@ -29,20 +29,10 @@ module Fortress
     # You can re-define it within the ApplicationController of you rails
     # application.
     def access_deny
-      message = 'You are not authorised to access this page.'
       respond_to do |format|
-        format.html do
-          flash[:error] = message
-          redirect_to root_url
-        end
-        format.json do
-          self.status = :unauthorized
-          self.response_body = { error: message }.to_json
-        end
-        format.xml do
-          self.status = :unauthorized
-          self.response_body = { error: message }.to_xml
-        end
+        format.html { redirect_to_root_url_with_flash_message }
+        format.json { unauthorized_with_error_message(:json) }
+        format.xml { unauthorized_with_error_message(:xml) }
       end
     end
 
@@ -55,6 +45,30 @@ module Fortress
       def fortress_allow(actions, options = {})
         Mechanism.authorise!(name, actions)
         Mechanism.parse_options(self, actions, options) if options.present?
+      end
+    end
+
+    private
+
+    def error_message
+      'You are not authorised to access this page.'
+    end
+
+    def redirect_to_root_url_with_flash_message
+      flash[:error] = error_message
+      redirect_to root_url
+    end
+
+    def unauthorized_with_error_message(format)
+      self.status = :unauthorized
+      self.response_body = response_for_format(format)
+    end
+
+    def response_for_format(format)
+      response = { error: error_message }
+      case
+      when format == :json then response.to_json
+      when format == :xml then response.to_xml
       end
     end
   end

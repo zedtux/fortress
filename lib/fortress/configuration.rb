@@ -1,3 +1,8 @@
+#
+# Fortress is a protection mechanism for Rails applications
+#
+# @author zedtux
+#
 module Fortress
   class << self
     attr_accessor :configuration
@@ -11,6 +16,11 @@ module Fortress
     apply_configuration!
   end
 
+  #
+  # Fortress configuration management class
+  #
+  # @author zedtux
+  #
   class Configuration
     attr_reader :options
 
