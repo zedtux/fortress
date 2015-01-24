@@ -67,14 +67,11 @@ module Fortress
 
     def self.append_or_update(controller_name, key, value)
       authorisations[controller_name] ||= {}
+
       if authorisations[controller_name].key?(key)
-        if authorisations[controller_name][key].is_a?(Hash)
-          authorisations[controller_name][key].merge!(value)
-        else
-          authorisations[controller_name][key] = value
-        end
+        update_authorisations(controller_name, key, value)
       else
-        authorisations[controller_name].merge!(key => value)
+        append_to_authorisations(controller_name, key, value)
       end
     end
 
@@ -108,14 +105,21 @@ module Fortress
       return true if controller.allow_action?(action_name)
 
       # When the controller implement the authorisation method
-      if controller.allow_method?
-        if controller.needs_to_check_action?(action_name)
-          allowed = controller.call_allow_method
-          return true if allowed
-        end
-      end
+      return true if controller.conditionally_allowed?(action_name)
 
       false
+    end
+
+    def self.append_to_authorisations(controller_name, key, value)
+      authorisations[controller_name].merge!(key => value)
+    end
+
+    def self.update_authorisations(controller_name, key, value)
+      if authorisations[controller_name][key].is_a?(Hash)
+        authorisations[controller_name][key].merge!(value)
+      else
+        authorisations[controller_name][key] = value
+      end
     end
   end
 end
