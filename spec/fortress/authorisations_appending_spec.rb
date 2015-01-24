@@ -21,5 +21,23 @@ describe 'Authorisations appending (YourCursus/fortress#7)' do
         end
       end
     end
+
+    context 'when calling the first time `fortress_allow` method' do
+      before { GuitarsController.fortress_allow :all, except: :destroy }
+      it 'should create a new authorisation for the controller' do
+        expect(Fortress::Mechanism.authorisations).to have_key(controller)
+        expect(Fortress::Mechanism.authorisations[controller])
+          .to eql(all: true, except: [:destroy])
+      end
+      context 'when calling a second time `fortress_allow` method' do
+        before { GuitarsController.fortress_allow :destroy, if: true }
+        it 'should append keys to the existing controller authorisation' do
+          expect(Fortress::Mechanism.authorisations).to have_key(controller)
+          expect(Fortress::Mechanism.authorisations[controller])
+            .to eql(all: true, except: [:destroy],
+                    if: { method: true, actions: [:destroy] })
+        end
+      end
+    end
   end
 end
