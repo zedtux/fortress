@@ -159,6 +159,18 @@ class PostsController < ApplicationController
 end
 ```
 
+## Detecting blocked controllers
+
+It can be a little bit hard to find all the blocked controller in a big
+application.
+
+I recommend you to use the following command:
+
+    $ tail -f log/*.log | grep prevent_access -B 5
+
+You will see which controller is called and then blocked by the prevent_access!
+method from Fortress.
+
 ## Contributing
 
 1. Fork it ( https://github.com/YourCursus/fortress/fork )
