@@ -26,6 +26,8 @@ module Rails
         root 'home#index'
         resources :guitars
         resources :concerts, only: :index
+        # Represents an external controller
+        resources :stages
       end
       @routes
     end
