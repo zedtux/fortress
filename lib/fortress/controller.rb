@@ -29,8 +29,21 @@ module Fortress
     # You can re-define it within the ApplicationController of you rails
     # application.
     def access_deny
-      flash[:error] = 'You are not authorised to access this page.'
-      redirect_to root_url
+      message = 'You are not authorised to access this page.'
+      respond_to do |format|
+        format.html do
+          flash[:error] = message
+          redirect_to root_url
+        end
+        format.json do
+          self.status = :unauthorized
+          self.response_body = { error: message }.to_json
+        end
+        format.xml do
+          self.status = :unauthorized
+          self.response_body = { error: message }.to_xml
+        end
+      end
     end
 
     #

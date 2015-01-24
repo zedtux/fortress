@@ -27,3 +27,15 @@ class GuitarsController < TestController
 
   def destroy; end
 end
+
+#
+# Controller with a custom access_deny method
+#
+class ConcertsController < TestController
+  def index; end
+
+  def access_deny
+    flash[:error] = 'Accès refusé'
+    redirect_to '/another/route'
+  end
+end
