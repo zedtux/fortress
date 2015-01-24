@@ -43,7 +43,9 @@ module Fortress
     #
     module ClassMethods
       def fortress_allow(actions, options = {})
-        Mechanism.authorise!(name, actions)
+        (options.blank? || actions == :all) &&
+          Mechanism.authorise!(name, actions)
+
         Mechanism.parse_options(self, actions, options) if options.present?
       end
     end
