@@ -1,23 +1,35 @@
 require 'spec_helper'
 
-class ConcertsController < TestController
-  def index; end
-
-  def access_deny
-    flash[:error] = 'Accès refusé'
-    redirect_to '/another/route'
-  end
-end
-
 describe GuitarsController, type: :controller do
+  let(:default_message) { 'You are not authorised to access this page.' }
   describe 'access_deny' do
     it 'should have a default method' do
-      default_message = 'You are not authorised to access this page.'
-
       get :index
 
       expect(response).to redirect_to(root_url)
       expect(flash[:error]).to eql(default_message)
+    end
+    describe 'respond with the same format (YourCursus/fortress#2)' do
+      context 'with JSON' do
+        it 'should respond with a JSON message' do
+          json = { error: default_message }.to_json
+
+          get :index, format: :json
+
+          expect(response.status).to eql(401)
+          expect(response.body).to eql(json)
+        end
+      end
+      context 'with XML' do
+        it 'should respond with a XML message' do
+          xml = { error: default_message }.to_xml
+
+          get :index, format: :xml
+
+          expect(response.status).to eql(401)
+          expect(response.body).to eql(xml)
+        end
+      end
     end
   end
 end

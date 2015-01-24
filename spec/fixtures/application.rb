@@ -14,13 +14,18 @@ module Rails
       {}
     end
 
+    # Required in order to have `rake routes` working
+    def config
+      OpenStruct.new(assets: OpenStruct.new(prefix: nil))
+    end
+
     def routes
       return @routes if defined?(@routes)
       @routes = ActionDispatch::Routing::RouteSet.new
       @routes.draw do
         root 'home#index'
         resources :guitars
-        resources :concerts
+        resources :concerts, only: :index
       end
       @routes
     end
