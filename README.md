@@ -35,6 +35,21 @@ After having installed the gem, and started the server, all the routes are
 closed. At this moment your application is absoluetly un-usable so it's in the
 maximum secure mode ; )
 
+### Configuration
+
+#### externals
+
+When using a gem adding controllers to your application, like Devise, Fortress
+needs to be aware of them otherwise it will prevent access to them.
+
+You can do this by using the `externals` option within an initializer:
+
+```ruby
+Fortress.configure do |config|
+  config.externals = %w(SessionsController)
+end
+```
+
 ### Allow access to the root controller
 
 The first action to take is to allow the root controller as it's the place
