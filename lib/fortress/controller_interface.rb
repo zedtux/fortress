@@ -32,7 +32,7 @@ module Fortress
       return false if action_forbidden?(name.to_sym)
 
       if conditionnal_method_with_action?(name.to_sym)
-        return params[:if][:method] == true
+        return call_allow_method == true
       end
 
       return true if action_allowed_from_only?(name.to_sym)
@@ -55,7 +55,7 @@ module Fortress
 
     def conditionally_allowed?(action_name)
       return unless allow_method?
-      return unless needs_to_check_action?(action_name)
+      return unless needs_to_check_action?(action_name.to_sym)
       call_allow_method
     end
 

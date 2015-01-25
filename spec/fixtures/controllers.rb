@@ -26,6 +26,16 @@ class GuitarsController < TestController
   def update; end
 
   def destroy; end
+
+  private
+
+  def true
+    true
+  end
+
+  def false
+    false
+  end
 end
 
 #
