@@ -382,7 +382,7 @@ describe GuitarsController, type: :controller do
   context 'allowing the index action with a condition returning true' do
     before do
       Fortress::Mechanism.initialize_authorisations
-      GuitarsController.fortress_allow :index, if: true
+      GuitarsController.fortress_allow :index, if: :true
     end
     describe 'GET index' do
       it 'should return a 200 HTTP code' do
@@ -454,7 +454,7 @@ describe GuitarsController, type: :controller do
   context 'allowing the index action with a condition returning false' do
     before do
       Fortress::Mechanism.initialize_authorisations
-      GuitarsController.fortress_allow :index, if: false
+      GuitarsController.fortress_allow :index, if: :false
     end
     describe 'GET index' do
       it 'should redirect to the root_url and set a flash error message' do

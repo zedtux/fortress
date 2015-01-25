@@ -95,7 +95,7 @@ describe Fortress::ControllerInterface do
           context 'the `:method` return false' do
             before do
               Fortress::Mechanism.authorisations['GuitarsController'] = {
-                if: { actions: [:index], method: false }
+                if: { actions: [:index], method: :false }
               }
             end
             subject { Fortress::ControllerInterface.new(@controller) }
@@ -106,7 +106,7 @@ describe Fortress::ControllerInterface do
           context 'the `:method` return true' do
             before do
               Fortress::Mechanism.authorisations['GuitarsController'] = {
-                if: { actions: [:index], method: true }
+                if: { actions: [:index], method: :true }
               }
             end
             subject { Fortress::ControllerInterface.new(@controller) }
