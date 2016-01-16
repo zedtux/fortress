@@ -2,16 +2,13 @@
 
 [![Build Status](https://travis-ci.org/YourCursus/fortress.svg?branch=master)](https://travis-ci.org/YourCursus/fortress) [![Code Climate](https://codeclimate.com/github/YourCursus/fortress/badges/gpa.svg)](https://codeclimate.com/github/YourCursus/fortress) [![Gem Version](https://badge.fury.io/rb/fortress.svg)](http://badge.fury.io/rb/fortress) [![Test Coverage](https://codeclimate.com/github/YourCursus/fortress/badges/coverage.svg)](https://codeclimate.com/github/YourCursus/fortress)
 
-Implement the simple but powerful protection: close everything and open the
-access explecitely.
+Protect your Rails application using the simple but powerful principle **close everything, open explicitly**.
 
-As of today, and as far as I know, all protection libraries are bases on the
-principle that all is open and you close when need which can leads to security
-holes in the case you've forgotten to close a route.
+When you create a new Rails application, and you add a new route, you will use `resourses :users` for instance, which creates all the CRUD actions, open without restrictions.
+You then need to either prevent the action creation using `only: :action_name` or `except: :action_name`, or in the controller add some `before_action` in order to check the user access.
 
-It's probabely better to refuse the access to a page where a user should be
-allowed to access it than allowing access to a page where a user should not be
-allowed to access and let him sees things he shouldn't.
+This gem implements a security mechanism which will reject all calls to controller actions which have not been allowed.
+(Better reject access and then allow it, than allowing the user accessing a place he shouldn't and then closing it.)
 
 ## Installation
 
@@ -32,17 +29,16 @@ Or install it yourself as:
 ## Usage
 
 After having installed the gem, and started the server, all the routes are
-closed. At this moment your application is absoluetly un-usable so it's in the
-maximum secure mode ; )
+closed.
+At this moment your application is no accessible at all, so you need to start to allow accessing some controller actions.
 
 ### Configuration
 
 #### externals
 
-When using a gem adding controllers to your application, like Devise, Fortress
-needs to be aware of them otherwise it will prevent access to them.
+When using a gem adding controllers to your application, like Devise for example, Fortress needs to be aware of those controllers in order to allow access.
 
-You can do this by using the `externals` option within an initializer:
+You can do this using the `externals` option within an initializer:
 
 ```ruby
 Fortress.configure do |config|
@@ -57,8 +53,8 @@ where the user will be redirected in case he tries to access a place where he
 is not allowed to.
 (he is redirected to the `root_url` and a flash message `:error` is displayed.)
 
-Given the root controller of your application is the `WelcomeController` then
-you can allow to access it with the following:
+Given the root controller of your application is the `WelcomeController`,
+you can allow accessing it with the following:
 
 ```ruby
 class WelcomeController < ApplicationController
@@ -70,17 +66,15 @@ class WelcomeController < ApplicationController
 end
 ```
 
-`fortress_allow` is the only method you need to know. Giving the `:all`
-argument as parameter revert the behavior to the default one: All is open for
-this controller.
+`fortress_allow` is the only method you need to know.
+
+Here the `:all` argument will allow accessing all existing and future actions of the controller, which is the default Rails behavior.
 It's simple and easy to use in public controllers (no data with limited access)
 but I highly recommend you to use it as less as possible.
 
-### Allow a specific action
+### Allow access to a specific action
 
-Now you want to allow access to an action of another controller.
-
-In the case you don't have specific need you can write the following:
+In this example, we allow anyone (no checks on the user) to access the `index` action.
 
 ```ruby
 class PostsController < ApplicationController
@@ -92,8 +86,7 @@ class PostsController < ApplicationController
 end
 ```
 
-
-### Allow all actions except one
+### Allow access to all actions excepted one
 
 Let's say you have a controller with 4 actions and you want to allow all of
 them except one.
@@ -130,13 +123,12 @@ class PostsController < ApplicationController
 end
 ```
 
-Note: This reduce a little bit the security as if you add a new action to the
-controller and you haven't updated Fortress, the action will be allowed.
+Note: This reduce a little bit the security level as in the case you add a new action to the controller but you don't update the `fortress_allow`, the action will be allowed.
 
-### Allowing on condition
+### Allowing access with condition
 
 Finally you can use the `:if` key in order to allow only when the condition is
-true.
+`true`.
 
 ```ruby
 class PostsController < ApplicationController
@@ -168,7 +160,7 @@ I recommend you to use the following command:
 
     $ tail -f log/*.log | grep prevent_access -B 5
 
-You will see which controller is called and then blocked by the prevent_access!
+You will see which controllers are called and then blocked by the `prevent_access!`
 method from Fortress.
 
 ## Contributing
